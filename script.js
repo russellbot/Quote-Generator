@@ -6,6 +6,7 @@ const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
 let apiQuotes = [];
+let errorCount = 0;
 
 // Show Loading
 const showLoadingSpinner = () => {
@@ -50,8 +51,15 @@ async function getQuote() {
         apiQuotes = await response.json();
         newQuote();
     } catch (error) {
-        getQuote();
-        console.log('whoops, no quote', error);
+        errorCount++;
+        console.log(errorCount);
+        if (errorCount < 5) {
+            getQuote();
+            console.log('whoops, no quote', error);
+        } else {
+            console.log('whoops, no quote', error);
+        }
+        
     }
 }
 
